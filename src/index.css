@@ -1,1 +1,11 @@
 @import "tailwindcss";
+.Toastify__toast {
+  min-width: 200px !important;
+  max-width: 300px !important;
+  min-height: 60px !important;
+  max-height: 100px !important;
+}
+.custom-toast {
+  margin-top: 60px; /* Adjust distance from top */
+}
+

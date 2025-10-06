@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaUser, FaShoppingBag, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
@@ -29,6 +29,12 @@ function Navbar() {
     };
   }, []);
 
+  // 🔹 Class for active links
+  const linkClass = ({ isActive }) =>
+    isActive
+      ? "text-green-400 border-b-2 border-green-400 pb-1"
+      : "hover:text-gray-300 transition-colors";
+
   return (
     <nav className="bg-black text-white p-4 flex justify-between items-center relative z-50">
       {/* Brand Logo */}
@@ -38,21 +44,31 @@ function Navbar() {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex space-x-12">
-        <Link to="/" className="hover:text-gray-300">Home</Link>
-        <Link to="/shop" className="hover:text-gray-300">Shop</Link>
-        <Link to="/about" className="hover:text-gray-300">About</Link>
-        <Link to="/contact" className="hover:text-gray-300">Contact Us</Link>
+        <NavLink to="/" className={linkClass}>
+          Home
+        </NavLink>
+        <NavLink to="/shop" className={linkClass}>
+          Shop
+        </NavLink>
+        <NavLink to="/about" className={linkClass}>
+          About
+        </NavLink>
+        <NavLink to="/contact" className={linkClass}>
+          Contact Us
+        </NavLink>
       </div>
 
       {/* Right Side: Cart, Wishlist, Profile/Login */}
       <div className="hidden md:flex items-center space-x-4">
-        <Link to="/cart" className="hover:text-gray-300 font-semibold">
-          Cart
-        </Link>
 
-        <Link to="/wishlist" className="hover:text-gray-300 font-semibold">
+        
+        <NavLink to="/cart" className={linkClass}>
+          Cart
+        </NavLink>
+
+        <NavLink to="/wishlist" className={linkClass}>
           Wishlist
-        </Link>
+        </NavLink>
 
         {userId ? (
           <div className="relative" ref={dropdownRef}>
@@ -74,7 +90,7 @@ function Navbar() {
                   <FaUser size={16} />
                   <span>Profile</span>
                 </Link>
-                
+
                 <Link
                   to="/orders"
                   className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors"
@@ -97,9 +113,9 @@ function Navbar() {
             )}
           </div>
         ) : (
-          <Link to="/login" className="hover:text-gray-300 font-semibold">
+          <NavLink to="/login" className={linkClass}>
             Login
-          </Link>
+          </NavLink>
         )}
       </div>
 
@@ -114,34 +130,33 @@ function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="absolute top-16 left-0 w-full bg-black flex flex-col items-center space-y-4 py-6 md:hidden z-40">
-          <Link to="/" className="hover:text-gray-300" onClick={() => setIsOpen(false)}>
+          <NavLink to="/" className={linkClass} onClick={() => setIsOpen(false)}>
             Home
-          </Link>
-          <Link to="/shop" className="hover:text-gray-300" onClick={() => setIsOpen(false)}>
+          </NavLink>
+          <NavLink to="/shop" className={linkClass} onClick={() => setIsOpen(false)}>
             Shop
-          </Link>
-          <Link to="/about" className="hover:text-gray-300" onClick={() => setIsOpen(false)}>
+          </NavLink>
+          <NavLink to="/about" className={linkClass} onClick={() => setIsOpen(false)}>
             About
-          </Link>
-          <Link to="/contact" className="hover:text-gray-300" onClick={() => setIsOpen(false)}>
+          </NavLink>
+          <NavLink to="/contact" className={linkClass} onClick={() => setIsOpen(false)}>
             Contact Us
-          </Link>
-
-          <Link to="/cart" className="hover:text-gray-300 font-semibold" onClick={() => setIsOpen(false)}>
+          </NavLink>
+          <NavLink to="/cart" className={linkClass} onClick={() => setIsOpen(false)}>
             Cart
-          </Link>
-          <Link to="/wishlist" className="hover:text-gray-300 font-semibold" onClick={() => setIsOpen(false)}>
+          </NavLink>
+          <NavLink to="/wishlist" className={linkClass} onClick={() => setIsOpen(false)}>
             Wishlist
-          </Link>
+          </NavLink>
 
           {userId ? (
             <>
-              <Link to="/profile" className="hover:text-gray-300 font-semibold" onClick={() => setIsOpen(false)}>
+              <NavLink to="/profile" className={linkClass} onClick={() => setIsOpen(false)}>
                 Profile
-              </Link>
-              <Link to="/orders" className="hover:text-gray-300 font-semibold" onClick={() => setIsOpen(false)}>
+              </NavLink>
+              <NavLink to="/orders" className={linkClass} onClick={() => setIsOpen(false)}>
                 Orders
-              </Link>
+              </NavLink>
               <button
                 onClick={() => {
                   handleLogout();
@@ -153,13 +168,9 @@ function Navbar() {
               </button>
             </>
           ) : (
-            <Link
-              to="/login"
-              className="hover:text-gray-300 font-semibold"
-              onClick={() => setIsOpen(false)}
-            >
+            <NavLink to="/login" className={linkClass} onClick={() => setIsOpen(false)}>
               Login
-            </Link>
+            </NavLink>
           )}
         </div>
       )}

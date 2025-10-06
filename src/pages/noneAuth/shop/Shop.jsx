@@ -4,6 +4,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Footer from "../../../components/footer/Footer";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/button/Button";
+import { toast } from "react-toastify";
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -79,7 +80,7 @@ function Shop() {
   const handleAddToCart = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login to add items to cart!");
+      toast.warn("Please login to add items to cart!");
       navigate("/login");
       return;
     }
@@ -92,7 +93,7 @@ function Shop() {
       // Check if already in cart
       const alreadyInCart = user.cart.some((item) => item.id === product.id);
       if (alreadyInCart) {
-        alert("Item already in cart!");
+        toast.success("Item already in cart!");
         return;
       }
 
@@ -110,10 +111,10 @@ function Shop() {
       // Update local state
       setCurrentUser({ ...user, cart: updatedCart });
 
-      alert("✅ Added to cart successfully!");
+      toast.success("✅ Added to cart successfully!");
     } catch (error) {
       console.error("Error adding to cart:", error);
-      alert("Failed to add item to cart!");
+      toast.warn("Failed to add item to cart!");
     }
   };
 
@@ -121,7 +122,7 @@ function Shop() {
   const handleAddToWishlist = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login to add items to wishlist!");
+      toast.warn("Please login to add items to wishlist!");
       navigate("/login");
       return;
     }
@@ -134,7 +135,7 @@ function Shop() {
       // Check if already in wishlist
       const alreadyInWishlist = user.wishlist.some((item) => item.id === product.id);
       if (alreadyInWishlist) {
-        alert("Item already in wishlist!");
+        toast.warning("Item already in wishlist!");
         return;
       }
 
@@ -152,11 +153,11 @@ function Shop() {
       // Update local state
       setCurrentUser({ ...user, wishlist: updatedWishlist });
 
-      alert("❤️ Added to wishlist successfully!");
+      toast.success("❤️ Added to wishlist successfully!");
     } catch (error) {
       console.error("Error adding to wishlist:", error);
       console.error("Error details:", error.response?.data);
-      alert("Failed to add item to wishlist! Check console for details.");
+      toast.warn("Failed to add item to wishlist! Check console for details.");
     }
   };
 
@@ -181,10 +182,10 @@ function Shop() {
       // Update local state
       setCurrentUser({ ...user, wishlist: updatedWishlist });
 
-      alert("Removed from wishlist!");
+      toast.warn("Removed from wishlist!");
     } catch (error) {
       console.error("Error removing from wishlist:", error);
-      alert("Failed to remove item from wishlist!");
+      toast.warn("Failed to remove item from wishlist!");
     }
   };
 

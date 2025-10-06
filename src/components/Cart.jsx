@@ -3,6 +3,7 @@ import axios from "axios";
 import Footer from "./footer/Footer";
 import { useNavigate } from "react-router-dom";
 import Button from "./button/Button";
+import { toast } from "react-toastify";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -57,7 +58,9 @@ function Cart() {
   // Handle buying single product
   const handleBuyNowProduct = async (product) => {
     if (!userId) {
-      alert("Please login to proceed!");
+      // toast.warn("Please login to proceed!");
+      toast.warn("Please login to proceed!", { theme: "colored" });
+
       navigate("/login");
       return;
     }
@@ -66,9 +69,11 @@ function Cart() {
     try {
       const productRes = await axios.get(`http://localhost:5000/products/${product.id}`);
       const currentProduct = productRes.data;
-      
+
       if (currentProduct.sizes[product.selectedSize] < product.quantity) {
-        alert(`Not enough stock for ${product.name} in size ${product.selectedSize}!`);
+        // toast.warn(`Not enough stock for ${product.name} in size ${product.selectedSize}!`);
+        toast.warning(`Not enough stock for ${product.name} in size ${product.selectedSize}!`, { theme: "colored" });
+
         return;
       }
 
@@ -84,20 +89,26 @@ function Cart() {
 
     } catch (err) {
       console.error("Error checking stock:", err);
-      alert("Error checking product availability. Please try again.");
+      // toast.warn("Error checking product availability. Please try again.");
+      toast.error("Error checking product availability. Please try again.", { theme: "colored" });
+
     }
   };
 
   // Handle buying all products in cart
   const handleBuyAll = async () => {
     if (!userId) {
-      alert("Please login to proceed!");
+      // toast.warn("Please login to proceed!");
+      toast.warn("Please login to proceed!", { theme: "colored" });
+
       navigate("/login");
       return;
     }
 
     if (cartItems.length === 0) {
-      alert("Your cart is empty!");
+      // toast.warn("Your cart is empty!");
+      toast.warn("Your cart is empty!", { theme: "colored" });
+
       return;
     }
 
@@ -106,9 +117,11 @@ function Cart() {
       for (const item of cartItems) {
         const productRes = await axios.get(`http://localhost:5000/products/${item.id}`);
         const currentProduct = productRes.data;
-        
+
         if (currentProduct.sizes[item.selectedSize] < item.quantity) {
-          alert(`Not enough stock for ${item.name} in size ${item.selectedSize}!`);
+          // toast.warn(`Not enough stock for ${item.name} in size ${item.selectedSize}!`);
+          toast.warning(`Not enough stock for ${item.name} in size ${item.selectedSize}!`, { theme: "colored" });
+
           return;
         }
       }
@@ -124,7 +137,9 @@ function Cart() {
 
     } catch (err) {
       console.error("Error checking stock:", err);
-      alert("Error checking product availability. Please try again.");
+      // toast.warn("Error checking product availability. Please try again.");
+      toast.error("Error checking product availability. Please try again.", { theme: "colored" });
+
     }
   };
 
@@ -132,7 +147,6 @@ function Cart() {
     <div>
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6 text-center">Your Cart 🛒</h1>
-
         {cartItems.length === 0 ? (
           <p className="text-center text-gray-500 text-xl">Your cart is empty</p>
         ) : (
@@ -192,11 +206,11 @@ function Cart() {
 
                   {/* Buttons */}
                   <div className="mt-3 flex gap-4">
-                    
-                    <Button onClick={()=> handleRemove(item.id)} variant="danger" size="small">Remove</Button>
 
-                    
-                    <Button onClick={()=>handleBuyNowProduct(item)} variant="success">Buy Now</Button>
+                    <Button onClick={() => handleRemove(item.id)} variant="danger" size="small">Remove</Button>
+
+
+                    <Button onClick={() => handleBuyNowProduct(item)} variant="success">Buy Now</Button>
                   </div>
                 </div>
               </div>
@@ -210,10 +224,10 @@ function Cart() {
                   Items: <span className="font-semibold">{cartItems.length}</span>
                 </p>
               </div>
-              
+
               <div className="text-right text-2xl font-bold mt-6 flex justify-end items-center gap-4">
                 <span>Total: ${totalPrice.toFixed(2)}</span>
-                
+
                 <Button onClick={handleBuyAll} variant="warning">Buy All Items</Button>
               </div>
             </div>

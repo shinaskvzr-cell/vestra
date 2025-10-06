@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Footer from "../../../components/footer/Footer";
 import Button from "../../../components/button/Button";
+import { toast } from "react-toastify";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Thanks for reaching out, ${formData.name}! We’ll get back to you soon.`);
+    toast.warning(`Thanks for reaching out, ${formData.name}! We’ll get back to you soon.`);
     setFormData({ name: "", email: "", message: "" });
   };
 

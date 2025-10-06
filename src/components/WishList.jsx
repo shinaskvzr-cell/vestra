@@ -3,6 +3,7 @@ import Footer from "./footer/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "./button/Button";
+import { toast } from "react-toastify";
 
 function Wishlist() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -46,7 +47,7 @@ function Wishlist() {
       // Update local state
       setCurrentUser({ ...user, wishlist: updatedWishlist });
 
-      alert("Removed from wishlist!");
+      toast.warn("Removed from wishlist!");
     } catch (err) {
       console.error("Error removing item:", err);
     }
@@ -56,7 +57,7 @@ function Wishlist() {
   const moveToCart = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login to add items to cart!");
+      toast.warning("Please login to add items to cart!");
       navigate("/login");
       return;
     }
@@ -69,7 +70,7 @@ function Wishlist() {
       // Check if already in cart
       const alreadyInCart = user.cart.some((item) => item.id === product.id);
       if (alreadyInCart) {
-        alert("Item already in cart!");
+        toast.success("Item already in cart!");
         return;
       }
 
@@ -89,17 +90,17 @@ function Wishlist() {
       });
 
       // Update local state
-      setCurrentUser({ 
-        ...user, 
-        cart: updatedCart, 
-        wishlist: updatedWishlist 
+      setCurrentUser({
+        ...user,
+        cart: updatedCart,
+        wishlist: updatedWishlist
       });
 
-      alert("✅ Moved to cart successfully!");
+      toast.success("✅ Moved to cart successfully!");
       navigate("/cart");
     } catch (err) {
       console.error("Error moving item to cart:", err);
-      alert("Failed to move item to cart!");
+      toast.error("Failed to move item to cart!");
     }
   };
 
@@ -124,11 +125,11 @@ function Wishlist() {
                   <p className="text-rose-500 font-bold text-lg">${item.price}</p>
 
                   <div className="mt-2 flex gap-4">
-                    
-                    <Button onClick={()=>moveToCart(item)} size="small" variant="success">Move to Cart</Button>
 
-                    
-                    <Button onClick={()=>handleRemove(item.id)} variant="danger" size="small">Remove</Button>
+                    <Button onClick={() => moveToCart(item)} size="small" variant="success">Move to Cart</Button>
+
+
+                    <Button onClick={() => handleRemove(item.id)} variant="danger" size="small">Remove</Button>
                   </div>
                 </div>
               </div>
@@ -136,7 +137,7 @@ function Wishlist() {
           </div>
         )}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

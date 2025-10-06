@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Register() {
   const [name, setName] = useState("");
@@ -12,7 +13,7 @@ function Register() {
 
     // Simple validation
     if (!name || !email || !password) {
-      alert("All fields are required!");
+      toast.warn("All fields are required!");
       return;
     }
 
@@ -22,7 +23,7 @@ function Register() {
       const existingUsers = await res.json();
 
       if (existingUsers.length > 0) {
-        alert("User with this email already exists!");
+        toast.warning("User with this email already exists!");
         return;
       }
 
@@ -54,12 +55,12 @@ function Register() {
       // Save the userId in localStorage
       localStorage.setItem("userId", data.id);
 
-      alert("Registration successful! 🎉 Your ID: " + data.id);
+      toast.success("Registration successful! 🎉 Your ID: " + data.id);
       navigate("/login");
 
     } catch (error) {
       console.error("Registration failed:", error);
-      alert("Something went wrong! Please try again later.");
+      toast.warn("Something went wrong! Please try again later.");
     }
   }
 

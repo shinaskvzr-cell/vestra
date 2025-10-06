@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -24,18 +25,18 @@ function ProductDetail() {
   const handleAddToCart = async () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login to add items to cart!");
+      toast.warn("Please login to add items to cart!");
       navigate("/login");
       return;
     }
 
     if (!selectedSize) {
-      alert("Please select a size!");
+      toast.warn("Please select a size!");
       return;
     }
 
     if (product.sizes[selectedSize] < quantity) {
-      alert("Not enough stock!");
+      toast.error("Not enough stock!");
       return;
     }
 
@@ -86,29 +87,29 @@ function ProductDetail() {
       await axios.put(`http://localhost:5000/products/${id}`, updatedProduct);
       setProduct(updatedProduct);
 
-      alert("✅ Added to cart successfully!");
+      toast.success("✅ Added to cart successfully!");
 
     } catch (err) {
       console.error("Error adding to cart:", err);
-      alert("Error adding to cart. Please try again.");
+      toast.error("Error adding to cart. Please try again.");
     }
   };
 
   const handleBuyNow = () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      alert("Please login to proceed!");
+      toast.warn("Please login to proceed!");
       navigate("/login");
       return;
     }
 
     if (!selectedSize) {
-      alert("Please select a size!");
+      toast.warn("Please select a size!");
       return;
     }
 
     if (product.sizes[selectedSize] < quantity) {
-      alert("Not enough stock!");
+      toast.error("Not enough stock!");
       return;
     }
 

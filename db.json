@@ -55,9 +55,7 @@
             "XL": 1,
             "2XL": 1
           }
-        }
-      ],
-      "cart": [
+        },
         {
           "id": "4",
           "name": "Manchester City",
@@ -66,20 +64,19 @@
           "kit": "Away",
           "league": "Premier League",
           "year": 2025,
-          "stock": 8,
+          "stock": 5,
           "sizes": {
-            "XS": 1,
+            "XS": 0,
             "S": 1,
-            "M": 2,
+            "M": 0,
             "L": 2,
             "XL": 1,
             "2XL": 1
           },
-          "topSelling": false,
-          "quantity": 1,
-          "selectedSize": "M"
+          "topSelling": false
         }
       ],
+      "cart": [],
       "orders": [
         {
           "id": "1759562985202",
@@ -256,6 +253,88 @@
           "paymentMethod": "card",
           "totalAmount": "130.00",
           "orderDate": "2025-10-04T10:37:37.533Z",
+          "status": "pending"
+        },
+        {
+          "id": "1759729231163",
+          "userId": "41ff",
+          "products": [
+            {
+              "id": "4",
+              "name": "Manchester City",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_df1cdaa3-6bdf-472b-92a2-a78c931b985b.png?v=1753114317&width=720",
+              "kit": "Away",
+              "year": 2025,
+              "price": 100,
+              "selectedSize": "M",
+              "quantity": 1
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "shinas",
+            "email": "shinas@gmail.com",
+            "phone": "1234567890",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "card"
+          },
+          "paymentMethod": "card",
+          "totalAmount": "100.00",
+          "orderDate": "2025-10-06T05:40:31.163Z",
+          "status": "pending"
+        },
+        {
+          "id": "1759747142343",
+          "userId": "41ff",
+          "products": [
+            {
+              "id": "3",
+              "name": "Manchester United",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_6b9b1e6f-bf6a-4b36-a48f-4bb648257058.png?v=1749734629&width=1646",
+              "kit": "Home",
+              "year": 2025,
+              "price": 130,
+              "selectedSize": "2XL",
+              "quantity": 1
+            },
+            {
+              "id": "4",
+              "name": "Manchester City",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_df1cdaa3-6bdf-472b-92a2-a78c931b985b.png?v=1753114317&width=720",
+              "kit": "Away",
+              "year": 2025,
+              "price": 100,
+              "selectedSize": "M",
+              "quantity": 1
+            },
+            {
+              "id": "10",
+              "name": "Argentina",
+              "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-433266627_2229243630740581_7506992859984294903_n_1080.jpg?v=1725715269&width=720",
+              "kit": "Home",
+              "year": 2024,
+              "price": 100,
+              "selectedSize": "M",
+              "quantity": 1
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "shinas",
+            "email": "shinas@gmail.com",
+            "phone": "1234567890",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "card"
+          },
+          "paymentMethod": "card",
+          "totalAmount": "330.00",
+          "orderDate": "2025-10-06T10:39:02.343Z",
           "status": "pending"
         }
       ],
@@ -460,12 +539,12 @@
       "kit": "Home",
       "league": "La Liga",
       "year": 2025,
-      "stock": 3,
+      "stock": 2,
       "sizes": {
         "XS": 0,
         "S": 0,
         "M": 0,
-        "L": 2,
+        "L": 1,
         "XL": 1,
         "2XL": 0
       },
@@ -479,14 +558,14 @@
       "kit": "Home",
       "league": "Premier League",
       "year": 2025,
-      "stock": null,
+      "stock": -1,
       "sizes": {
         "XS": 0,
         "S": 1,
         "M": 1,
         "L": 2,
         "XL": 1,
-        "2XL": 1,
+        "2XL": 0,
         "undefined": null
       }
     },
@@ -498,11 +577,11 @@
       "kit": "Away",
       "league": "Premier League",
       "year": 2025,
-      "stock": 8,
+      "stock": 5,
       "sizes": {
-        "XS": 1,
+        "XS": 0,
         "S": 1,
-        "M": 2,
+        "M": 0,
         "L": 2,
         "XL": 1,
         "2XL": 1
@@ -612,11 +691,11 @@
       "kit": "Home",
       "league": "National",
       "year": 2024,
-      "stock": 6,
+      "stock": 5,
       "sizes": {
         "XS": 1,
         "S": 0,
-        "M": 2,
+        "M": 1,
         "L": 1,
         "XL": 1,
         "2XL": 1
