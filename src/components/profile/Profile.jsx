@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import Footer from "./footer/Footer";
+import Footer from "../footer/Footer";
 import { toast } from "react-toastify";
+import Navbar from "../navbar/Navbar";
 
 function Profile() {
     const navigate = useNavigate();
@@ -114,6 +115,7 @@ function Profile() {
 
     return (
         <div>
+            <Navbar/>
             <div className="min-h-screen bg-gray-50 py-8">
                 <div className="max-w-4xl mx-auto px-4">
                     {/* Header */}

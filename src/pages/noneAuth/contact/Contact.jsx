@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Footer from "../../../components/footer/Footer";
 import Button from "../../../components/button/Button";
 import { toast } from "react-toastify";
+import Navbar from "../../../components/navbar/Navbar";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ function Contact() {
 
   return (
     <div>
+      <Navbar/>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-xl p-8 md:p-12">
         

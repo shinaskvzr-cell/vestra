@@ -10,6 +10,7 @@ import {
     FaEnvelope,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Navbar from "../navbar/Navbar";
 
 function BuyNow() {
     const location = useLocation();
@@ -178,7 +179,9 @@ function BuyNow() {
         );
 
     return (
-        <div className="min-h-screen bg-gray-50 py-6">
+        <div>
+            <Navbar/>
+            <div className="min-h-screen bg-gray-50 py-6">
             <div className="max-w-7xl mx-auto px-4">
                 <button
                     onClick={() => navigate(-1)}
@@ -355,6 +358,7 @@ function BuyNow() {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     );
 }

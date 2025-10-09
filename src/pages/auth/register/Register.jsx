@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Navbar from "../../../components/navbar/Navbar";
 
 function Register() {
   const [name, setName] = useState("");
@@ -65,57 +66,60 @@ function Register() {
   }
 
   return (
-    <div
-      className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/assets/images/bg.jpg')" }}
-    >
-      <form
-        onSubmit={handleRegister}
-        className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-96"
+    <div>
+      <Navbar/>
+      <div
+        className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/assets/images/bg.jpg')" }}
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-all"
+        <form
+          onSubmit={handleRegister}
+          className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-96"
         >
-          Register
-        </button>
+          <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
 
-        <p className="text-sm text-center text-gray-600 mt-3">
-          Already have an account?{" "}
-          <span
-            className="text-blue-500 cursor-pointer hover:underline"
-            onClick={() => navigate("/login")}
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-all"
           >
-            Login
-          </span>
-        </p>
-      </form>
+            Register
+          </button>
+
+          <p className="text-sm text-center text-gray-600 mt-3">
+            Already have an account?{" "}
+            <span
+              className="text-blue-500 cursor-pointer hover:underline"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </span>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

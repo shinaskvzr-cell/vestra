@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Footer from "./footer/Footer";
+import Footer from "../footer/Footer";
 import { useNavigate } from "react-router-dom";
-import Button from "./button/Button";
+import Button from "../button/Button";
 import { toast } from "react-toastify";
+import Navbar from "../navbar/Navbar";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -145,6 +146,7 @@ function Cart() {
 
   return (
     <div>
+      <Navbar/>
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6 text-center">Your Cart 🛒</h1>
         {cartItems.length === 0 ? (

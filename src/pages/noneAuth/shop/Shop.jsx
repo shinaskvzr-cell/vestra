@@ -5,6 +5,7 @@ import Footer from "../../../components/footer/Footer";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/button/Button";
 import { toast } from "react-toastify";
+import Navbar from "../../../components/navbar/Navbar";
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -76,7 +77,7 @@ function Shop() {
     setSelectedKit("");
   };
 
-  // 🛒 Add to Cart
+  // Add to Cart
   const handleAddToCart = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -118,7 +119,7 @@ function Shop() {
     }
   };
 
-  // ❤️ Add to Wishlist - UPDATED FOR YOUR JSON STRUCTURE
+  // Add to Wishlist - UPDATED FOR YOUR JSON STRUCTURE
   const handleAddToWishlist = async (product) => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -153,7 +154,7 @@ function Shop() {
       // Update local state
       setCurrentUser({ ...user, wishlist: updatedWishlist });
 
-      toast.success("❤️ Added to wishlist successfully!");
+      toast.success("Added to wishlist successfully!");
     } catch (error) {
       console.error("Error adding to wishlist:", error);
       console.error("Error details:", error.response?.data);
@@ -206,6 +207,7 @@ function Shop() {
 
   return (
     <div>
+      <Navbar/>
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6 text-center">Shop 🛒</h1>
 

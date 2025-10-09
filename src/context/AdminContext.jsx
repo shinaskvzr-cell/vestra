@@ -1,0 +1,1 @@
+// For admin login/auth state

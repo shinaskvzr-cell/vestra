@@ -61,13 +61,13 @@ function Navbar() {
       {/* Right Side: Cart, Wishlist, Profile/Login */}
       <div className="hidden md:flex items-center space-x-4">
 
-        
+
         <NavLink to="/cart" className={linkClass}>
-          Cart
+          Cart🛒
         </NavLink>
 
         <NavLink to="/wishlist" className={linkClass}>
-          Wishlist
+          Wishlist❤️
         </NavLink>
 
         {userId ? (

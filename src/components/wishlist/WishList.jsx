@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./footer/Footer";
+import Footer from "../footer/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Button from "./button/Button";
+import Button from "../button/Button";
 import { toast } from "react-toastify";
+import Navbar from "../navbar/Navbar";
 
 function Wishlist() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -108,6 +109,7 @@ function Wishlist() {
 
   return (
     <div>
+      <Navbar/>
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6 text-center">Your Wishlist ❤️</h1>
 
