@@ -269,20 +269,20 @@ const UserManagement = () => {
                           <ShieldOff size={16} />
                         )}
                       </button>
-                      <button
+                      {/* <button
                         className="p-1 text-gray-600 hover:text-blue-600"
                         title="Edit User"
                         aria-label="Edit User"
                       >
                         <Edit size={16} />
-                      </button>
-                      <button
+                      </button> */}
+                      {/* <button
                         className="p-1 text-gray-600 hover:text-green-600"
                         title="Send Email"
                         aria-label="Send Email"
                       >
                         <Mail size={16} />
-                      </button>
+                      </button> */}
                       {user.role !== "admin" && (
                         <button
                           onClick={() => deleteUser(user.id)}

@@ -1,18 +1,16 @@
-// pages/admin/dashboard/AdminDashboard.js
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   BarChart3,
   Users,
   Package,
   ShoppingCart,
-  Settings,
   Bell,
   Menu,
   X,
   LogOut
 } from "lucide-react";
 
-import { useNavigate } from "react-router-dom"; // 👈 add this
+import { useNavigate } from "react-router-dom";
 import DashboardStats from "../components/DashboardStats";
 import RecentOrders from "../components/RecentOrders";
 import SalesChart from "../components/SalesChart";
@@ -26,11 +24,13 @@ import adminProfile from "../../../assets/adminProfile.jpg";
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate(); // 👈 for redirecting
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
-    localStorage.clear(); // remove stored user data
-    navigate("/login"); // redirect to login
+    if (confirm("Are you sure want to logout")){
+    localStorage.clear();
+    navigate("/login"); 
+    }
   };
 
   return (

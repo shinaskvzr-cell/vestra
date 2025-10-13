@@ -32,14 +32,22 @@ function Login() {
         return;
       }
 
+      
       // Save user info
       localStorage.setItem("userId", user.id);
       localStorage.setItem("userRole", user.role);
       localStorage.setItem("userData", JSON.stringify(user));
+      
+      if(user.isBlock){
+        localStorage.clear("userId")
+        toast.error(`Hey ${user.name}, You are Blocked!`);
+      }
 
-      toast.success(`Welcome back, ${user.name}!`);
+      if(!user.isBlock){
+        toast.success(`Welcome back, ${user.name}!`);
+      }
       if (user.role === "admin") navigate("/admin");
-      else navigate("/");
+      else  navigate("/");
     } catch (err) {
       console.error("Login error:", err);
       toast.warn("Something went wrong. Please try again.");

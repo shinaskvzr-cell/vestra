@@ -40,7 +40,7 @@ const OrderManagement = () => {
       const sortedOrders = allOrders.sort((a, b) => {
         const dateA = new Date(a.orderDate || a.createdAt || 0);
         const dateB = new Date(b.orderDate || b.createdAt || 0);
-        return dateB - dateA; // Descending order (newest first)
+        return dateB - dateA; 
       });
 
       setOrders(sortedOrders);

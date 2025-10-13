@@ -25,7 +25,50 @@
       "password": "123456789",
       "role": "user",
       "wishlist": [],
-      "cart": [],
+      "cart": [
+        {
+          "id": "2",
+          "name": "Real Madrid",
+          "price": 130,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_0df7cd67-5e13-4593-9c42-82de25410f50.jpg?v=1751668871&width=1646",
+          "kit": "Home",
+          "league": "La Liga",
+          "year": 2025,
+          "stock": null,
+          "sizes": {
+            "XS": 0,
+            "S": 0,
+            "M": 0,
+            "L": 1,
+            "XL": 1,
+            "2XL": 0
+          },
+          "topSelling": true,
+          "quantity": 1,
+          "selectedSize": "M"
+        },
+        {
+          "id": "1",
+          "name": "FC Barcelona",
+          "price": 120,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_dddfd443-68ff-4a44-868b-445e1446f352.jpg?v=1751517557&width=1646",
+          "kit": "Home",
+          "league": "La Liga",
+          "year": 2025,
+          "stock": 0,
+          "sizes": {
+            "XS": 0,
+            "S": 0,
+            "M": 0,
+            "L": 0,
+            "XL": 0,
+            "2XL": 0
+          },
+          "topSelling": true,
+          "quantity": 1,
+          "selectedSize": "M"
+        }
+      ],
       "orders": [
         {
           "id": "1760005860401",
@@ -164,6 +207,35 @@
           "totalAmount": "330.00",
           "orderDate": "2025-10-09T12:30:30.715Z",
           "status": "delivered"
+        },
+        {
+          "id": "1760349704933",
+          "userId": "ebc0",
+          "products": [
+            {
+              "id": "6",
+              "name": "Inter Miami",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_7be30db8-2bc8-45db-9bd4-eaf46b5094ed.jpg?v=1741826704&width=720",
+              "kit": "Away",
+              "year": 2025,
+              "price": 100
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "anshad",
+            "email": "anshad@gmail.com",
+            "phone": "98754321",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "card"
+          },
+          "paymentMethod": "card",
+          "totalAmount": "100.00",
+          "orderDate": "2025-10-13T10:01:44.934Z",
+          "status": "pending"
         }
       ],
       "isBlock": false,
@@ -355,7 +427,7 @@
           "paymentMethod": "cod",
           "totalAmount": "100.00",
           "orderDate": "2025-10-11T10:46:38.223Z",
-          "status": "pending"
+          "status": "delivered"
         },
         {
           "id": "1760179645036",
@@ -396,7 +468,7 @@
           "paymentMethod": "cod",
           "totalAmount": "260.00",
           "orderDate": "2025-10-11T10:47:25.036Z",
-          "status": "pending"
+          "status": "delivered"
         },
         {
           "id": "1760328204698",
@@ -425,7 +497,7 @@
           "paymentMethod": "card",
           "totalAmount": "100.00",
           "orderDate": "2025-10-13T04:03:24.698Z",
-          "status": "pending"
+          "status": "processing"
         }
       ],
       "isBlock": false,
@@ -536,14 +608,15 @@
       "kit": "Away",
       "league": "MLS",
       "year": 2025,
-      "stock": -2,
+      "stock": null,
       "sizes": {
         "XS": 1,
         "S": 0,
         "M": 0,
         "L": 2,
         "XL": 1,
-        "2XL": 1
+        "2XL": 1,
+        "undefined": null
       },
       "topSelling": false
     },
@@ -565,7 +638,7 @@
         "2XL": 1,
         "undefined": null
       },
-      "topSelling": false
+      "topSelling": true
     },
     {
       "id": "8",
@@ -584,7 +657,7 @@
         "XL": 1,
         "2XL": 1
       },
-      "topSelling": false
+      "topSelling": true
     },
     {
       "id": "9",
@@ -604,7 +677,7 @@
         "2XL": 1,
         "undefined": null
       },
-      "topSelling": false
+      "topSelling": true
     },
     {
       "id": "10",

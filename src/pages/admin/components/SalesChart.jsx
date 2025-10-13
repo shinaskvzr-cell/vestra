@@ -18,10 +18,10 @@ const SalesChart = () => {
 
   const fetchSalesData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/users'); // ✅ make sure matches your JSON server
+      const res = await fetch('http://localhost:5000/users'); 
       const users = await res.json();
 
-      // Collect all orders from all users
+      
       const allOrders = users.flatMap((user) =>
         (user.orders || []).map((order) => {
           const totalAmount =
@@ -32,7 +32,7 @@ const SalesChart = () => {
             ) ||
             0;
 
-          // ✅ Format order date as "10 Oct" etc.
+          
           const orderDay = new Date(order.orderDate).toLocaleDateString('default', {
             day: 'numeric',
             month: 'short',
@@ -49,7 +49,7 @@ const SalesChart = () => {
         })
       );
 
-      // ✅ Aggregate by day
+      // Aggregate by day
       const dailySales = {};
       allOrders.forEach((order) => {
         if (!dailySales[order.day]) {
@@ -59,7 +59,7 @@ const SalesChart = () => {
         dailySales[order.day].revenue += order.totalAmount;
       });
 
-      // ✅ Convert object → sorted array
+      // Convert object → sorted array
       const chartData = Object.entries(dailySales)
         .map(([day, values]) => ({
           day,
