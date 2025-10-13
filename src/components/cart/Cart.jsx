@@ -5,11 +5,22 @@ import { useNavigate } from "react-router-dom";
 import Button from "../button/Button";
 import { toast } from "react-toastify";
 import Navbar from "../navbar/Navbar";
+import { CartContext } from "../../context/CartContext";
+import { useContext } from "react";
+
+
+
+
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
+
+
+
+  const { updateCartCount } = useContext(CartContext);
+
 
   useEffect(() => {
     if (!userId) return;
@@ -29,6 +40,8 @@ function Cart() {
   const handleRemove = async (id) => {
     const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);
+    updateCartCount(updatedCart.length);
+
 
     await axios.patch(`http://localhost:5000/users/${userId}`, {
       cart: updatedCart,

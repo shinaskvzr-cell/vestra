@@ -54,7 +54,7 @@
           "paymentMethod": "card",
           "totalAmount": "NaN",
           "orderDate": "2025-10-09T10:31:00.401Z",
-          "status": "shipped"
+          "status": "processing"
         },
         {
           "id": "1760005878903",
@@ -83,7 +83,7 @@
           "paymentMethod": "card",
           "totalAmount": "NaN",
           "orderDate": "2025-10-09T10:31:18.903Z",
-          "status": "pending"
+          "status": "delivered"
         },
         {
           "id": "1760012987532",
@@ -112,7 +112,7 @@
           "paymentMethod": "card",
           "totalAmount": "100.00",
           "orderDate": "2025-10-09T12:29:47.532Z",
-          "status": "pending"
+          "status": "delivered"
         },
         {
           "id": "1760013030715",
@@ -163,11 +163,273 @@
           "paymentMethod": "card",
           "totalAmount": "330.00",
           "orderDate": "2025-10-09T12:30:30.715Z",
-          "status": "pending"
+          "status": "delivered"
         }
       ],
       "isBlock": false,
       "createdAt": "2025-10-04T04:33:06.905Z"
+    },
+    {
+      "id": "b5d6",
+      "name": "sinan",
+      "email": "sinan@gmail.com",
+      "password": "123456789",
+      "role": "user",
+      "wishlist": [
+        {
+          "id": "2",
+          "name": "Real Madrid",
+          "price": 130,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_0df7cd67-5e13-4593-9c42-82de25410f50.jpg?v=1751668871&width=1646",
+          "kit": "Home",
+          "league": "La Liga",
+          "year": 2025,
+          "stock": null,
+          "sizes": {
+            "XS": 0,
+            "S": 0,
+            "M": 0,
+            "L": 1,
+            "XL": 1,
+            "2XL": 0
+          },
+          "topSelling": true
+        }
+      ],
+      "cart": [
+        {
+          "id": "4",
+          "name": "Manchester City",
+          "price": 100,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_df1cdaa3-6bdf-472b-92a2-a78c931b985b.png?v=1753114317&width=720",
+          "kit": "Away",
+          "league": "Premier League",
+          "year": 2025,
+          "stock": 5,
+          "sizes": {
+            "XS": 0,
+            "S": 1,
+            "M": 0,
+            "L": 2,
+            "XL": 1,
+            "2XL": 1
+          },
+          "topSelling": false,
+          "quantity": 1,
+          "selectedSize": "S"
+        },
+        {
+          "id": "ab6c",
+          "name": "Chelsea",
+          "league": "Premier League",
+          "kit": "Home",
+          "price": 120,
+          "stock": -1,
+          "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-456328608_822434986678307_6964085969293177629_n_1080.jpg?v=1726390177&width=720",
+          "topSelling": false,
+          "year": 2025,
+          "sizes": {
+            "XS": 1,
+            "S": 1,
+            "M": 0,
+            "L": 2,
+            "XL": 2,
+            "2XL": 2
+          },
+          "quantity": 1,
+          "selectedSize": "XL"
+        }
+      ],
+      "orders": [
+        {
+          "id": "1760072732559",
+          "userId": "b5d6",
+          "products": [
+            {
+              "id": "5",
+              "name": "AC Milan",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_ff6333d7-5d2a-4df9-a0dc-dec1db6fad81.png?v=1747917446&width=720",
+              "kit": "Home",
+              "year": 2025,
+              "price": 100
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "sinan",
+            "email": "sinan@gmail.com",
+            "phone": "7u890",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "card"
+          },
+          "paymentMethod": "card",
+          "totalAmount": "100.00",
+          "orderDate": "2025-10-10T05:05:32.559Z",
+          "status": "processing"
+        },
+        {
+          "id": "1760074010128",
+          "userId": "b5d6",
+          "products": [
+            {
+              "id": "10",
+              "name": "Argentina",
+              "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-433266627_2229243630740581_7506992859984294903_n_1080.jpg?v=1725715269&width=720",
+              "kit": "Home",
+              "year": 2024,
+              "price": 100
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "sinan",
+            "email": "sinan@gmail.com",
+            "phone": "7u890",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "upi"
+          },
+          "paymentMethod": "upi",
+          "totalAmount": "100.00",
+          "orderDate": "2025-10-10T05:26:50.128Z",
+          "status": "pending"
+        },
+        {
+          "id": "1760155527609",
+          "userId": "b5d6",
+          "products": [
+            {
+              "id": "3",
+              "name": "Manchester United",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_6b9b1e6f-bf6a-4b36-a48f-4bb648257058.png?v=1749734629&width=1646",
+              "kit": "Home",
+              "year": 2025,
+              "price": 130
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "sinan",
+            "email": "sinan@gmail.com",
+            "phone": "7u890",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "cod"
+          },
+          "paymentMethod": "cod",
+          "totalAmount": "130.00",
+          "orderDate": "2025-10-11T04:05:27.609Z",
+          "status": "pending"
+        },
+        {
+          "id": "1760179598223",
+          "userId": "b5d6",
+          "products": [
+            {
+              "id": "7",
+              "name": "Juventus",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_5db272ee-745c-48dc-9c6c-636fbcf8a44e.png?v=1747646106&width=720",
+              "kit": "Home",
+              "year": 2025,
+              "price": 100
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "sinan",
+            "email": "sinan@gmail.com",
+            "phone": "98754321",
+            "address": "house",
+            "city": "kozhikode",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "cod"
+          },
+          "paymentMethod": "cod",
+          "totalAmount": "100.00",
+          "orderDate": "2025-10-11T10:46:38.223Z",
+          "status": "pending"
+        },
+        {
+          "id": "1760179645036",
+          "userId": "b5d6",
+          "products": [
+            {
+              "id": "7fe1",
+              "name": "Bayern Munich",
+              "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_3990b63e-9965-42d7-8ae7-06f48033eeee.png?v=1750018696&width=720",
+              "kit": "Home",
+              "year": 2025,
+              "price": 140,
+              "selectedSize": "M",
+              "quantity": 1
+            },
+            {
+              "id": "ab6c",
+              "name": "Chelsea",
+              "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-456328608_822434986678307_6964085969293177629_n_1080.jpg?v=1726390177&width=720",
+              "kit": "Home",
+              "year": 2025,
+              "price": 120,
+              "selectedSize": "M",
+              "quantity": 1
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "sinan",
+            "email": "sinan@gmail.com",
+            "phone": "98754321",
+            "address": "house",
+            "city": "kozhikode",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "cod"
+          },
+          "paymentMethod": "cod",
+          "totalAmount": "260.00",
+          "orderDate": "2025-10-11T10:47:25.036Z",
+          "status": "pending"
+        },
+        {
+          "id": "1760328204698",
+          "userId": "b5d6",
+          "products": [
+            {
+              "id": "9",
+              "name": "Barcelona",
+              "image": "https://championskit.in/cdn/shop/files/Buy_Now_FC_Barcelona_2024_Away_Jersey_Player_Version.jpg?v=1733386739&width=720",
+              "kit": "Away",
+              "year": 2024,
+              "price": 100
+            }
+          ],
+          "shippingDetails": {
+            "fullName": "sinan",
+            "email": "sinan@gmail.com",
+            "phone": "98754321",
+            "address": "123 main",
+            "city": "new york",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "paymentMethod": "card"
+          },
+          "paymentMethod": "card",
+          "totalAmount": "100.00",
+          "orderDate": "2025-10-13T04:03:24.698Z",
+          "status": "pending"
+        }
+      ],
+      "isBlock": false,
+      "createdAt": "2025-10-10T05:05:19.702Z"
     }
   ],
   "products": [
@@ -205,8 +467,7 @@
         "M": 0,
         "L": 1,
         "XL": 1,
-        "2XL": 0,
-        "undefined": null
+        "2XL": 0
       },
       "topSelling": true
     },
@@ -218,16 +479,16 @@
       "kit": "Home",
       "league": "Premier League",
       "year": 2025,
-      "stock": -3,
+      "stock": null,
       "sizes": {
         "XS": 0,
         "S": 0,
         "M": 0,
         "L": 2,
         "XL": 1,
-        "2XL": 0,
-        "undefined": null
-      }
+        "2XL": 0
+      },
+      "topSelling": true
     },
     {
       "id": "4",
@@ -263,10 +524,9 @@
         "M": 2,
         "L": 2,
         "XL": 1,
-        "2XL": 1,
-        "undefined": null
+        "2XL": 1
       },
-      "topSelling": true
+      "topSelling": false
     },
     {
       "id": "6",
@@ -283,8 +543,7 @@
         "M": 0,
         "L": 2,
         "XL": 1,
-        "2XL": 1,
-        "undefined": null
+        "2XL": 1
       },
       "topSelling": false
     },
@@ -335,14 +594,15 @@
       "kit": "Away",
       "league": "La Liga",
       "year": 2024,
-      "stock": 8,
+      "stock": null,
       "sizes": {
         "XS": 1,
         "S": 1,
         "M": 2,
         "L": 2,
         "XL": 1,
-        "2XL": 1
+        "2XL": 1,
+        "undefined": null
       },
       "topSelling": false
     },
@@ -354,7 +614,7 @@
       "kit": "Home",
       "league": "National",
       "year": 2024,
-      "stock": 5,
+      "stock": null,
       "sizes": {
         "XS": 1,
         "S": 0,
@@ -366,47 +626,41 @@
       "topSelling": true
     },
     {
-      "id": "4c8f",
-      "name": "Germany",
-      "league": "National",
-      "kit": "Home",
-      "price": 5,
-      "stock": 5,
-      "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-432801467_954904556340792_6813264059805756585_n_1080.jpg?v=1725712789&width=720",
-      "topSelling": false,
-      "year": 2025
-    },
-    {
       "id": "ab6c",
       "name": "Chelsea",
       "league": "Premier League",
       "kit": "Home",
       "price": 120,
-      "stock": 0,
+      "stock": -1,
       "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-456328608_822434986678307_6964085969293177629_n_1080.jpg?v=1726390177&width=720",
       "topSelling": false,
       "year": 2025,
       "sizes": {
-        "XS": {
-          "enabled": true,
-          "quantity": 4
-        },
-        "S": {
-          "enabled": true,
-          "quantity": 4
-        },
-        "M": {
-          "enabled": true,
-          "quantity": 4
-        },
-        "L": {
-          "enabled": true,
-          "quantity": 3
-        },
-        "2XL": {
-          "enabled": true,
-          "quantity": 3
-        }
+        "XS": 1,
+        "S": 1,
+        "M": 0,
+        "L": 2,
+        "XL": 2,
+        "2XL": 2
+      }
+    },
+    {
+      "id": "7fe1",
+      "name": "Bayern Munich",
+      "league": "Bundesliga",
+      "kit": "Home",
+      "price": 140,
+      "stock": -1,
+      "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_3990b63e-9965-42d7-8ae7-06f48033eeee.png?v=1750018696&width=720",
+      "topSelling": false,
+      "year": 2025,
+      "sizes": {
+        "XS": 2,
+        "S": 3,
+        "M": 3,
+        "L": 4,
+        "XL": 6,
+        "2XL": 1
       }
     }
   ],

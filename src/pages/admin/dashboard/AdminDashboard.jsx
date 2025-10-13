@@ -1,10 +1,10 @@
 // pages/admin/dashboard/AdminDashboard.js
 import React, { useState, useEffect } from "react";
-import { 
-  BarChart3, 
-  Users, 
-  Package, 
-  ShoppingCart, 
+import {
+  BarChart3,
+  Users,
+  Package,
+  ShoppingCart,
   Settings,
   Bell,
   Menu,
@@ -21,6 +21,7 @@ import OrderManagement from "../components/OrderManagement";
 import ProductManagement from "../components/ProductManagement";
 import UserManagement from "../components/UserManagement";
 import adminProfile from "../../../assets/adminProfile.jpg";
+
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -60,16 +61,15 @@ const AdminDashboard = () => {
               { id: "users", label: "Users", icon: Users },
               { id: "products", label: "Products", icon: Package },
               { id: "orders", label: "Orders", icon: ShoppingCart },
-              { id: "settings", label: "Settings", icon: Settings },
+              // { id: "settings", label: "Settings", icon: Settings },
             ].map((item) => (
               <button
                 key={item.id}
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors
-                  ${
-                    activeTab === item.id
-                      ? "bg-blue-600 text-white"
-                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                  ${activeTab === item.id
+                    ? "bg-blue-600 text-white"
+                    : "text-slate-300 hover:bg-slate-700 hover:text-white"
                   }
                 `}
                 onClick={() => {

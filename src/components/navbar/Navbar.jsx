@@ -2,12 +2,24 @@ import React, { useState, useRef, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaUser, FaShoppingBag, FaSignOutAlt } from "react-icons/fa";
 
+
+import { CartContext } from "../../context/CartContext";
+import { useContext } from "react";
+
+
+
 function Navbar() {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef(null);
+
+
+
+  const { cartCount } = useContext(CartContext);
+
+
 
   function handleLogout() {
     localStorage.removeItem("userId");
@@ -62,9 +74,26 @@ function Navbar() {
       <div className="hidden md:flex items-center space-x-4">
 
 
-        <NavLink to="/cart" className={linkClass}>
+        {/* <NavLink to="/cart" className={linkClass}>
           Cart🛒
-        </NavLink>
+        </NavLink> */}
+
+
+
+
+<NavLink to="/cart" className="relative">
+  <span className={linkClass}>Cart 🛒</span>
+  {cartCount > 0 && (
+    <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+      {cartCount}
+    </span>
+  )}
+</NavLink>
+
+
+
+
+
 
         <NavLink to="/wishlist" className={linkClass}>
           Wishlist❤️

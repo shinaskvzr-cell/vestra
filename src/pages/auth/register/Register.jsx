@@ -12,7 +12,6 @@ function Register() {
   async function handleRegister(e) {
     e.preventDefault();
 
-    // Simple validation
     if (!name || !email || !password) {
       toast.warn("All fields are required!");
       return;
@@ -28,10 +27,8 @@ function Register() {
         return;
       }
 
-      // Generate timestamp for createdAt
       const createdAt = new Date().toISOString();
 
-      // Default user object as per your db.json structure
       const newUser = {
         name,
         email,
@@ -41,24 +38,20 @@ function Register() {
         cart: [],
         orders: [],
         isBlock: false,
-        createdAt
+        createdAt,
       };
 
-      // POST request to JSON server
       const response = await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newUser)
+        body: JSON.stringify(newUser),
       });
 
       const data = await response.json();
 
-      // Save the userId in localStorage
       localStorage.setItem("userId", data.id);
-
-      toast.success("Registration successful! 🎉 Your ID: " + data.id);
+      toast.success("Registration successful! 🎉");
       navigate("/login");
-
     } catch (error) {
       console.error("Registration failed:", error);
       toast.warn("Something went wrong! Please try again later.");
@@ -66,59 +59,74 @@ function Register() {
   }
 
   return (
-    <div>
-      <Navbar/>
+    <div className="relative min-h-screen flex flex-col">
+      <Navbar />
+
+      {/* Background with blur */}
       <div
-        className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{ backgroundImage: "url('/assets/images/bg.jpg')" }}
-      >
-        <form
-          onSubmit={handleRegister}
-          className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-96"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+      ></div>
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+      <div className="relative flex flex-1 justify-center items-center px-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl max-w-md w-full p-8 space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900 text-center">Create an Account</h2>
+          <p className="text-center text-gray-600">
+            Join us and start your journey today ✨
+          </p>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Full Name</label>
+              <input
+                type="text"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-sm transition"
+              />
+            </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-sm transition"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-all"
-          >
-            Register
-          </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <input
+                type="password"
+                placeholder="Create a strong password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-sm transition"
+              />
+            </div>
 
-          <p className="text-sm text-center text-gray-600 mt-3">
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white font-semibold p-3 rounded-xl hover:bg-green-600 transition"
+            >
+              Register
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-600">
             Already have an account?{" "}
             <span
-              className="text-blue-500 cursor-pointer hover:underline"
+              className="text-green-500 font-medium hover:underline cursor-pointer"
               onClick={() => navigate("/login")}
             >
-              Login
+              Login here
             </span>
           </p>
-        </form>
+        </div>
       </div>
     </div>
   );

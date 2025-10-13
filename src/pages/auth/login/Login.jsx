@@ -32,18 +32,14 @@ function Login() {
         return;
       }
 
-      //  Save both ID and full user data for consistency
+      // Save user info
       localStorage.setItem("userId", user.id);
       localStorage.setItem("userRole", user.role);
       localStorage.setItem("userData", JSON.stringify(user));
 
       toast.success(`Welcome back, ${user.name}!`);
-      // navigate("/");
-      if (user.role === "admin") {
-        navigate("/admin")
-      } else {
-        navigate("/")
-      }
+      if (user.role === "admin") navigate("/admin");
+      else navigate("/");
     } catch (err) {
       console.error("Login error:", err);
       toast.warn("Something went wrong. Please try again.");
@@ -51,48 +47,58 @@ function Login() {
   }
 
   return (
-    <div>
-      <Navbar/>
+    <div className="relative min-h-screen flex flex-col">
+      <Navbar />
+
+      {/* Background */}
       <div
-        className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center blur-sm"
         style={{ backgroundImage: "url('/assets/images/bg.jpg')" }}
-      >
-        <form
-          onSubmit={handleLogin}
-          className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-96"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+      ></div>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mb-3 p-2 border rounded"
-          />
+      <div className="relative flex flex-1 justify-center items-center px-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl max-w-md w-full p-8 space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900 text-center">Welcome Back</h2>
+          <p className="text-center text-gray-600">Login to your account</p>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full mb-4 p-2 border rounded"
-          />
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-sm transition"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-          >
-            Login
-          </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-sm transition"
+              />
+            </div>
 
-          <p className="mt-4 text-center text-sm">
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white font-semibold p-3 rounded-xl hover:bg-green-600 transition"
+            >
+              Login
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-600">
             New user?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" className="text-green-500 font-medium hover:underline">
               Register here
             </Link>
           </p>
-        </form>
+        </div>
       </div>
     </div>
   );

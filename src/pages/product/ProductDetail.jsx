@@ -206,10 +206,10 @@ function ProductDetail() {
           </div>
 
           {/* Stock Info */}
-          <p className="mt-8 text-gray-500">
+          {/* <p className="mt-8 text-gray-500">
             Total Stock: <span className="font-semibold">{product.size}</span>
 
-          </p>
+          </p> */}
           {/* <p className="mt-8 text-gray-500">
           Total Stock:{" "}
           <span className="font-semibold">
