@@ -1,12 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaUser, FaShoppingBag, FaSignOutAlt } from "react-icons/fa";
-
-
 import { CartContext } from "../../context/CartContext";
-import { useContext } from "react";
-
-
+import { WishlistContext } from "../../context/WishlistContext";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -15,17 +11,14 @@ function Navbar() {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-
-
   const { cartCount } = useContext(CartContext);
-
-
+  const { wishlistCount } = useContext(WishlistContext);
 
   function handleLogout() {
-    if(confirm("Are you sure want to logout")){
-    localStorage.removeItem("userId");
-    setShowProfileDropdown(false);
-    navigate("/");
+    if (confirm("Are you sure want to logout")) {
+      localStorage.removeItem("userId");
+      setShowProfileDropdown(false);
+      navigate("/");
     }
   }
 
@@ -43,7 +36,7 @@ function Navbar() {
     };
   }, []);
 
-  // 🔹 Class for active links
+  // Class for active links
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-green-400 border-b-2 border-green-400 pb-1"
@@ -74,31 +67,24 @@ function Navbar() {
 
       {/* Right Side: Cart, Wishlist, Profile/Login */}
       <div className="hidden md:flex items-center space-x-4">
+        {/* Cart with Count Badge */}
+        <NavLink to="/cart" className="relative">
+          <span className={linkClass}>Cart 🛒</span>
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              {cartCount}
+            </span>
+          )}
+        </NavLink>
 
-
-        {/* <NavLink to="/cart" className={linkClass}>
-          Cart🛒
-        </NavLink> */}
-
-
-
-
-<NavLink to="/cart" className="relative">
-  <span className={linkClass}>Cart 🛒</span>
-  {cartCount > 0 && (
-    <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-      {cartCount}
-    </span>
-  )}
-</NavLink>
-
-
-
-
-
-
-        <NavLink to="/wishlist" className={linkClass}>
-          Wishlist❤️
+        {/* Wishlist with Count Badge */}
+        <NavLink to="/wishlist" className="relative">
+          <span className={linkClass}>Wishlist❤️</span>
+          {wishlistCount > 0 && (
+            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              {wishlistCount}
+            </span>
+          )}
         </NavLink>
 
         {userId ? (
@@ -174,10 +160,10 @@ function Navbar() {
             Contact Us
           </NavLink>
           <NavLink to="/cart" className={linkClass} onClick={() => setIsOpen(false)}>
-            Cart
+            Cart {cartCount > 0 && `(${cartCount})`}
           </NavLink>
           <NavLink to="/wishlist" className={linkClass} onClick={() => setIsOpen(false)}>
-            Wishlist
+            Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
           </NavLink>
 
           {userId ? (

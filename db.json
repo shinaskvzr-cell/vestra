@@ -24,7 +24,65 @@
       "email": "anshad@gmail.com",
       "password": "123456789",
       "role": "user",
-      "wishlist": [],
+      "wishlist": [
+        {
+          "id": "3",
+          "name": "Manchester United",
+          "price": 130,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_6b9b1e6f-bf6a-4b36-a48f-4bb648257058.png?v=1749734629&width=1646",
+          "kit": "Home",
+          "league": "Premier League",
+          "year": 2025,
+          "stock": null,
+          "sizes": {
+            "XS": 0,
+            "S": 0,
+            "M": 0,
+            "L": 2,
+            "XL": 1,
+            "2XL": 0
+          },
+          "topSelling": false
+        },
+        {
+          "id": "2",
+          "name": "Real Madrid",
+          "price": 130,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_0df7cd67-5e13-4593-9c42-82de25410f50.jpg?v=1751668871&width=1646",
+          "kit": "Home",
+          "league": "La Liga",
+          "year": 2025,
+          "stock": null,
+          "sizes": {
+            "XS": 0,
+            "S": 0,
+            "M": 0,
+            "L": 1,
+            "XL": 1,
+            "2XL": 0
+          },
+          "topSelling": true
+        },
+        {
+          "id": "4",
+          "name": "Manchester City",
+          "price": 100,
+          "image": "https://championskit.in/cdn/shop/files/rn-image_picker_lib_temp_df1cdaa3-6bdf-472b-92a2-a78c931b985b.png?v=1753114317&width=720",
+          "kit": "Away",
+          "league": "Premier League",
+          "year": 2025,
+          "stock": 5,
+          "sizes": {
+            "XS": 0,
+            "S": 1,
+            "M": 0,
+            "L": 2,
+            "XL": 1,
+            "2XL": 1
+          },
+          "topSelling": false
+        }
+      ],
       "cart": [
         {
           "id": "2",
@@ -522,7 +580,7 @@
         "XL": 0,
         "2XL": 0
       },
-      "topSelling": true
+      "topSelling": false
     },
     {
       "id": "2",
@@ -560,7 +618,7 @@
         "XL": 1,
         "2XL": 0
       },
-      "topSelling": true
+      "topSelling": false
     },
     {
       "id": "4",
@@ -657,7 +715,7 @@
         "XL": 1,
         "2XL": 1
       },
-      "topSelling": true
+      "topSelling": false
     },
     {
       "id": "9",
@@ -677,7 +735,7 @@
         "2XL": 1,
         "undefined": null
       },
-      "topSelling": true
+      "topSelling": false
     },
     {
       "id": "10",
@@ -706,7 +764,7 @@
       "price": 120,
       "stock": -1,
       "image": "https://championskit.in/cdn/shop/files/Snapinsta.app-456328608_822434986678307_6964085969293177629_n_1080.jpg?v=1726390177&width=720",
-      "topSelling": false,
+      "topSelling": true,
       "year": 2025,
       "sizes": {
         "XS": 1,

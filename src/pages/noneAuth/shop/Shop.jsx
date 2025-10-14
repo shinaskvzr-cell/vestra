@@ -8,6 +8,7 @@ import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import Button from "../../../components/button/Button";
 import { CartContext } from "../../../context/CartContext";
+import { WishlistContext } from "../../../context/WishlistContext";
 
 const FilterSection = ({ searchName, setSearchName, selectedYear, setSelectedYear, selectedKit, setSelectedKit, availableYears, handleClearFilters, sortOption, setSortOption }) => (
   <div className="max-w-4xl mx-auto mb-8 bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
@@ -130,7 +131,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems }) => {
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="flex items-center gap-1 px-3 py-2   rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label="Previous page"
         >
           <FaChevronLeft size={14} />
@@ -147,9 +148,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems }) => {
               >
                 1
               </button>
-              {startPage > 2 && (
-                <span className="px-2 text-gray-500">...</span>
-              )}
+              {startPage > 2 && <span className="px-2 text-gray-500">...</span>}
             </>
           )}
 
@@ -171,9 +170,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems }) => {
 
           {endPage < totalPages && (
             <>
-              {endPage < totalPages - 1 && (
-                <span className="px-2 text-gray-500">...</span>
-              )}
+              {endPage < totalPages - 1 && <span className="px-2 text-gray-500">...</span>}
               <button
                 onClick={() => onPageChange(totalPages)}
                 className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
@@ -188,7 +185,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems }) => {
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="flex items-center gap-1 px-3 py-2   rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label="Next page"
         >
           Next
@@ -215,10 +212,11 @@ function Shop() {
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8; // Fixed to 8 items per page
+  const itemsPerPage = 8;
   
   const navigate = useNavigate();
   const { updateCartCount } = useContext(CartContext);
+  const { updateWishlistCount } = useContext(WishlistContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -292,7 +290,7 @@ function Shop() {
     }
 
     setFilteredProducts(filtered);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   }, [searchName, selectedYear, selectedKit, sortOption, products]);
 
   // Pagination logic
@@ -312,7 +310,6 @@ function Shop() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -378,6 +375,7 @@ function Shop() {
       });
 
       setCurrentUser({ ...user, wishlist: updatedWishlist });
+      updateWishlistCount(updatedWishlist.length);
       toast.success("Added to wishlist successfully!");
     } catch (error) {
       console.error("Error adding to wishlist:", error);
@@ -403,6 +401,7 @@ function Shop() {
       });
 
       setCurrentUser({ ...user, wishlist: updatedWishlist });
+      updateWishlistCount(updatedWishlist.length);
       toast.warn("Removed from wishlist!");
     } catch (error) {
       console.error("Error removing from wishlist:", error);
@@ -434,7 +433,6 @@ function Shop() {
           Shop <span role="img" aria-label="Shopping cart">🛒</span>
         </h1>
 
-        {/* Error State */}
         {error && (
           <div className="flex items-center justify-center gap-2 text-red-600 py-8">
             <AlertCircle size={20} />
@@ -442,7 +440,6 @@ function Shop() {
           </div>
         )}
 
-        {/* Filter Section */}
         {!error && (
           <FilterSection
             searchName={searchName}
@@ -458,7 +455,6 @@ function Shop() {
           />
         )}
 
-        {/* Products Count */}
         {!error && !loading && (
           <div className="max-w-4xl mx-auto mb-4">
             <p className="text-gray-600 text-sm">
@@ -468,7 +464,6 @@ function Shop() {
           </div>
         )}
 
-        {/* Products Grid */}
         {!error && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {loading ? (
@@ -488,10 +483,7 @@ function Shop() {
               ))
             ) : displayedProducts.length > 0 ? (
               displayedProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="relative bg-white shadow-xl rounded-lg p-4"
-                >
+                <div key={product.id} className="relative bg-white shadow-xl rounded-lg p-4">
                   <button
                     className="absolute top-7 right-7 transition-colors"
                     onClick={() => toggleWishlist(product)}
@@ -571,7 +563,6 @@ function Shop() {
           </div>
         )}
 
-        {/* Pagination */}
         {!error && !loading && filteredProducts.length > 0 && (
           <Pagination
             currentPage={currentPage}

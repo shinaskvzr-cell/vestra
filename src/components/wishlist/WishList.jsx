@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Footer from "../footer/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "../button/Button";
 import { toast } from "react-toastify";
 import Navbar from "../navbar/Navbar";
+import { WishlistContext } from "../../context/WishlistContext";
+import { CartContext } from "../../context/CartContext";
 
 function Wishlist() {
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
   const API_URL = "http://localhost:5000";
+  const { updateWishlistCount } = useContext(WishlistContext);
+  const { updateCartCount } = useContext(CartContext);
 
   // Load user data with wishlist
   useEffect(() => {
@@ -19,13 +23,15 @@ function Wishlist() {
         if (userId) {
           const res = await axios.get(`${API_URL}/users/${userId}`);
           setCurrentUser(res.data);
+          // Update wishlist count on component mount
+          updateWishlistCount(res.data.wishlist?.length || 0);
         }
       } catch (err) {
         console.error("Error fetching user:", err);
       }
     };
     fetchUser();
-  }, []);
+  }, [updateWishlistCount]);
 
   // Remove item from wishlist
   const handleRemove = async (productId) => {
@@ -47,6 +53,9 @@ function Wishlist() {
 
       // Update local state
       setCurrentUser({ ...user, wishlist: updatedWishlist });
+      
+      // ✅ Update wishlist count in context
+      updateWishlistCount(updatedWishlist.length);
 
       toast.warn("Removed from wishlist!");
     } catch (err) {
@@ -97,6 +106,10 @@ function Wishlist() {
         wishlist: updatedWishlist
       });
 
+      // ✅ Update both counts
+      updateWishlistCount(updatedWishlist.length);
+      updateCartCount(updatedCart.length);
+
       toast.success("✅ Moved to cart successfully!");
       navigate("/cart");
     } catch (err) {
@@ -110,16 +123,26 @@ function Wishlist() {
   return (
     <div>
       <Navbar/>
-      <div className="p-6">
+      <div className="p-6 min-h-screen">
         <h1 className="text-3xl font-bold mb-6 text-center">Your Wishlist ❤️</h1>
 
         {wishlistItems.length === 0 ? (
-          <p className="text-center text-gray-500 text-xl">Your wishlist is empty</p>
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-xl mb-4">Your wishlist is empty</p>
+            <Button onClick={() => navigate("/shop")} variant="success">
+              Continue Shopping
+            </Button>
+          </div>
         ) : (
           <div className="max-w-5xl mx-auto space-y-6">
             {wishlistItems.map((item) => (
               <div key={item.id} className="flex flex-col md:flex-row items-center bg-white shadow-lg rounded-lg p-4 gap-4">
-                <img src={item.image} alt={item.name} className="h-32 w-32 object-cover rounded-md" />
+                <img 
+                  src={item.image} 
+                  alt={item.name} 
+                  className="h-32 w-32 object-cover rounded-md cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => navigate(`/product/${item.id}`)}
+                />
 
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold">{item.name}</h2>
@@ -127,11 +150,12 @@ function Wishlist() {
                   <p className="text-rose-500 font-bold text-lg">${item.price}</p>
 
                   <div className="mt-2 flex gap-4">
-
-                    <Button onClick={() => moveToCart(item)} size="small" variant="success">Move to Cart</Button>
-
-
-                    <Button onClick={() => handleRemove(item.id)} variant="danger" size="small">Remove</Button>
+                    <Button onClick={() => moveToCart(item)} size="small" variant="success">
+                      Move to Cart
+                    </Button>
+                    <Button onClick={() => handleRemove(item.id)} variant="danger" size="small">
+                      Remove
+                    </Button>
                   </div>
                 </div>
               </div>
