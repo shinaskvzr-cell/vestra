@@ -33,13 +33,19 @@ const TopProducts = () => {
       const productSales = products.map(product => {
         const salesCount = allOrders.reduce((count, order) => {
           const productInOrder = order.products?.find(p => p.id === product.id);
-          return productInOrder ? count + productInOrder.quantity : count;
+          // Handle cases where quantity might be undefined or invalid
+          const quantity = productInOrder ? (Number(productInOrder.quantity) || 1) : 0;
+          return count + quantity;
         }, 0);
+
+        // Ensure price is a valid number
+        const price = Number(product.price) || 0;
+        const revenue = salesCount * price;
 
         return {
           ...product,
           sales: salesCount,
-          revenue: salesCount * product.price,
+          revenue: revenue,
         };
       });
 
@@ -121,7 +127,10 @@ const TopProducts = () => {
                   alt={product.name}
                   className="w-12 h-12 rounded-lg object-cover border border-gray-100"
                   loading="lazy"
-                  onError={(e) => (e.target.src = '/fallback-image.jpg')} // Fallback image
+                  onError={(e) => {
+                    e.target.src = '/fallback-image.jpg';
+                    e.target.onerror = null; // Prevent infinite loop
+                  }}
                 />
                 <div>
                   <p className="text-sm font-semibold text-gray-900">{product.name}</p>

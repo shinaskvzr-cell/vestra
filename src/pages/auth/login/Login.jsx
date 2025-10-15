@@ -37,6 +37,7 @@ function Login() {
       localStorage.setItem("userId", user.id);
       localStorage.setItem("userRole", user.role);
       localStorage.setItem("userData", JSON.stringify(user));
+      localStorage.setItem("isBlock", user.isBlock);
       
       if(user.isBlock){
         localStorage.clear("userId")

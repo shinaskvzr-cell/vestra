@@ -9,211 +9,30 @@ import Footer from "../../../components/footer/Footer";
 import Button from "../../../components/button/Button";
 import { CartContext } from "../../../context/CartContext";
 import { WishlistContext } from "../../../context/WishlistContext";
+import FilterSection from "./FilterSection";
+import Pagination from "./Pagination";
 
-const FilterSection = ({ searchName, setSearchName, selectedYear, setSelectedYear, selectedKit, setSelectedKit, availableYears, handleClearFilters, sortOption, setSortOption }) => (
-  <div className="max-w-4xl mx-auto mb-8 bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-    <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-      <Filter size={20} className="text-blue-500" />
-      Filters
-    </h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-      {/* Search */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">Search by Name</label>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="Enter product name..."
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-            aria-label="Search products by name"
-          />
-        </div>
-      </div>
 
-      {/* Year */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">Filter by Year</label>
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-          aria-label="Filter by year"
-        >
-          <option value="">All Years</option>
-          {availableYears.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
-      </div>
 
-      {/* Kit Type */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">Filter by Kit Type</label>
-        <select
-          value={selectedKit}
-          onChange={(e) => setSelectedKit(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-          aria-label="Filter by kit type"
-        >
-          <option value="">All Kits</option>
-          <option value="Home">Home</option>
-          <option value="Away">Away</option>
-          <option value="Third">Third</option>
-        </select>
-      </div>
-
-      {/* Sort */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">Sort By</label>
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-          aria-label="Sort products"
-        >
-          <option value="name-asc">Name (A-Z)</option>
-          <option value="name-desc">Name (Z-A)</option>
-          <option value="year-desc">Year (Newest)</option>
-          <option value="year-asc">Year (Oldest)</option>
-        </select>
-      </div>
-
-      {/* Clear Filters */}
-      <div className="flex items-end">
-        <button
-          onClick={handleClearFilters}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800 transition-colors"
-          aria-label="Clear all filters and sort"
-        >
-          Clear Filters
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-// Pagination Component
-const Pagination = ({ currentPage, totalPages, onPageChange, totalItems }) => {
-  const itemsPerPage = 8;
-  const pages = [];
-  const maxVisiblePages = 5;
-
-  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-  if (endPage - startPage + 1 < maxVisiblePages) {
-    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
-
-  const startItem = (currentPage - 1) * itemsPerPage + 1;
-  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-
-  return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
-      {/* Items Count */}
-      <div className="text-sm text-gray-600">
-        Showing <span className="font-semibold">{startItem}-{endItem}</span> of{" "}
-        <span className="font-semibold">{totalItems}</span> products
-      </div>
-
-      {/* Pagination Controls */}
-      <div className="flex items-center gap-2">
-        {/* Previous Button */}
-        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          aria-label="Previous page"
-        >
-          <FaChevronLeft size={14} />
-          Previous
-        </button>
-
-        {/* Page Numbers */}
-        <div className="flex items-center gap-1">
-          {startPage > 1 && (
-            <>
-              <button
-                onClick={() => onPageChange(1)}
-                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                1
-              </button>
-              {startPage > 2 && <span className="px-2 text-gray-500">...</span>}
-            </>
-          )}
-
-          {pages.map((page) => (
-            <button
-              key={page}
-              onClick={() => onPageChange(page)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
-                currentPage === page
-                  ? "bg-blue-600 text-white border-blue-600"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-200"
-              }`}
-              aria-label={`Go to page ${page}`}
-              aria-current={currentPage === page ? "page" : undefined}
-            >
-              {page}
-            </button>
-          ))}
-
-          {endPage < totalPages && (
-            <>
-              {endPage < totalPages - 1 && <span className="px-2 text-gray-500">...</span>}
-              <button
-                onClick={() => onPageChange(totalPages)}
-                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                {totalPages}
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* Next Button */}
-        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          aria-label="Next page"
-        >
-          Next
-          <FaChevronRight size={14} />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 function Shop() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [displayedProducts, setDisplayedProducts] = useState([]);
-  const [searchName, setSearchName] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedKit, setSelectedKit] = useState("");
-  const [sortOption, setSortOption] = useState("year-desc");
+  const [searchName, setSearchName] = useState(localStorage.getItem("Jersey Name") || "");
+  const [selectedYear, setSelectedYear] = useState(localStorage.getItem("Year") || "");
+  const [selectedKit, setSelectedKit] = useState(localStorage.getItem("Kit") || "");
+  const [sortOption, setSortOption] = useState(localStorage.getItem("Sort") || "year-desc");
   const [availableYears, setAvailableYears] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [actionLoading, setActionLoading] = useState({});
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-  
+
   const navigate = useNavigate();
   const { updateCartCount } = useContext(CartContext);
   const { updateWishlistCount } = useContext(WishlistContext);
@@ -256,6 +75,10 @@ function Shop() {
 
   // Filter and sort logic
   useEffect(() => {
+    localStorage.setItem("Jersey Name", searchName)
+    localStorage.setItem("Year", selectedYear)
+    localStorage.setItem("Kit", selectedKit)
+    localStorage.setItem("Sort", sortOption)
     let filtered = [...products];
 
     if (searchName.trim() !== "") {

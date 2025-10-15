@@ -10,7 +10,7 @@ const ProductManagement = () => {
   const [selectedLeague, setSelectedLeague] = useState("All Leagues");
   const [actionLoading, setActionLoading] = useState({});
   const [showForm, setShowForm] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null); // Track which product is being edited
+  const [editingProduct, setEditingProduct] = useState(null);
   
   const [productForm, setProductForm] = useState({
     name: "",
@@ -168,7 +168,8 @@ const ProductManagement = () => {
   };
 
   const deleteProduct = async (productId) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    
+    if (confirm("Are you sure you want to delete this product?")) return;
     setActionLoading((prev) => ({ ...prev, [productId]: true }));
     try {
       await axios.delete(`http://localhost:5000/products/${productId}`);

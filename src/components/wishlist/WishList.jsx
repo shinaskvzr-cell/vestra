@@ -54,7 +54,7 @@ function Wishlist() {
       // Update local state
       setCurrentUser({ ...user, wishlist: updatedWishlist });
       
-      // ✅ Update wishlist count in context
+      // Update wishlist count in context
       updateWishlistCount(updatedWishlist.length);
 
       toast.warn("Removed from wishlist!");
@@ -106,7 +106,7 @@ function Wishlist() {
         wishlist: updatedWishlist
       });
 
-      // ✅ Update both counts
+      // Update both counts
       updateWishlistCount(updatedWishlist.length);
       updateCartCount(updatedCart.length);
 

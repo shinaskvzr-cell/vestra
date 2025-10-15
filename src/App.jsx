@@ -27,6 +27,7 @@ function AuthRoute({ children }) {
 
 function App() {
   return (
+    
     <Router>
       <Routes>
         {/* 🌐 Public Routes */}

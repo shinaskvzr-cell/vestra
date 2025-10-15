@@ -17,17 +17,17 @@ function ProtectedRoute({ children, requireAdmin = false }) {
     }
   }, [userId, userRole, requireAdmin]);
 
-  // ✅ If not logged in, redirect to login
+  // If not logged in, redirect to login
   if (!userId) {
     return <Navigate to="/login" replace />;
   }
 
-  // ✅ If trying to access admin page without admin role
+  // If trying to access admin page without admin role
   if (requireAdmin && userRole !== "admin") {
     return <Navigate to="/" replace />;
   }
 
-  // ✅ Otherwise, allow access
+  // Otherwise, allow access
   return children;
 }
 

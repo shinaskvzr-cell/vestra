@@ -53,6 +53,8 @@ function Cart() {
       item.id === id ? { ...item, quantity: Number(value) } : item
     );
     setCartItems(updatedCart);
+    const totalQuantity = updatedCart.reduce((acc, item) => acc + item.quantity, 0);
+    updateCartCount(totalQuantity);
     await axios.patch(`http://localhost:5000/users/${userId}`, { cart: updatedCart });
   };
 
@@ -159,7 +161,7 @@ function Cart() {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6 text-center">Your Cart 🛒</h1>
         {cartItems.length === 0 ? (
@@ -210,7 +212,13 @@ function Cart() {
                       onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                       className="border border-gray-300 rounded-md px-2 py-1 w-16"
                     />
+                    <div className="mt-1 text-sm text-gray-600">
+                      You have added <span className="font-semibold text-green-600">{item.quantity}</span> of this item.
+                    </div>
+
                   </div>
+
+
 
                   {/* Item Total */}
                   <div className="mt-2">

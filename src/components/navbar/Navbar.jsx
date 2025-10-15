@@ -16,7 +16,7 @@ function Navbar() {
 
   function handleLogout() {
     if (confirm("Are you sure want to logout")) {
-      localStorage.removeItem("userId");
+      localStorage.clear("");
       setShowProfileDropdown(false);
       navigate("/");
     }
