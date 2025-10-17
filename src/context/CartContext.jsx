@@ -9,10 +9,17 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchCart = async () => {
-      if (!userId) return;
+      if (!userId) {
+        setCartCount(0);
+        return;
+      }
       try {
         const res = await axios.get(`http://localhost:5000/users/${userId}`);
-        setCartCount(res.data.cart?.length || 0);
+        const cart = res.data.cart || [];
+        
+        // ✅ Calculate TOTAL QUANTITY (sum of all item quantities)
+        const totalQuantity = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+        setCartCount(totalQuantity);
       } catch (err) {
         console.error("Error loading cart:", err);
       }

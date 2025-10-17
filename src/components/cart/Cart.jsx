@@ -38,25 +38,32 @@ function Cart() {
   }, [userId]);
 
   const handleRemove = async (id) => {
-    const updatedCart = cartItems.filter((item) => item.id !== id);
-    setCartItems(updatedCart);
-    updateCartCount(updatedCart.length);
+  const updatedCart = cartItems.filter((item) => item.id !== id);
+  setCartItems(updatedCart);
+  
+  // ✅ Calculate TOTAL QUANTITY after removal
+  const totalQuantity = updatedCart.reduce((acc, item) => acc + item.quantity, 0);
+  updateCartCount(totalQuantity);
 
-
-    await axios.patch(`http://localhost:5000/users/${userId}`, {
-      cart: updatedCart,
-    });
-  };
+  await axios.patch(`http://localhost:5000/users/${userId}`, {
+    cart: updatedCart,
+  });
+};
 
   const handleQuantityChange = async (id, value) => {
-    const updatedCart = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: Number(value) } : item
-    );
-    setCartItems(updatedCart);
-    const totalQuantity = updatedCart.reduce((acc, item) => acc + item.quantity, 0);
-    updateCartCount(totalQuantity);
-    await axios.patch(`http://localhost:5000/users/${userId}`, { cart: updatedCart });
-  };
+  const updatedCart = cartItems.map((item) =>
+    item.id === id ? { ...item, quantity: Number(value) } : item
+  );
+  setCartItems(updatedCart);
+  
+  // ✅ Calculate TOTAL QUANTITY (sum of all quantities)
+  const totalQuantity = updatedCart.reduce((acc, item) => acc + item.quantity, 0);
+  updateCartCount(totalQuantity);
+  
+  await axios.patch(`http://localhost:5000/users/${userId}`, { 
+    cart: updatedCart 
+  });
+};
 
   const handleSizeChange = async (id, size) => {
     const updatedCart = cartItems.map((item) =>

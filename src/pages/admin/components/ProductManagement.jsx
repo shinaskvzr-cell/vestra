@@ -11,6 +11,8 @@ const ProductManagement = () => {
   const [actionLoading, setActionLoading] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
   
   const [productForm, setProductForm] = useState({
     name: "",
@@ -167,18 +169,32 @@ const ProductManagement = () => {
     }
   };
 
-  const deleteProduct = async (productId) => {
+  // Open delete confirmation modal
+  const openDeleteModal = (product) => {
+    setProductToDelete(product);
+    setShowDeleteModal(true);
+  };
+
+  // Close delete confirmation modal
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setProductToDelete(null);
+  };
+
+  // Delete product after confirmation
+  const deleteProduct = async () => {
+    if (!productToDelete) return;
     
-    if (confirm("Are you sure you want to delete this product?")) return;
-    setActionLoading((prev) => ({ ...prev, [productId]: true }));
+    setActionLoading((prev) => ({ ...prev, [productToDelete.id]: true }));
     try {
-      await axios.delete(`http://localhost:5000/products/${productId}`);
-      setProducts((prev) => prev.filter((p) => p.id !== productId));
+      await axios.delete(`http://localhost:5000/products/${productToDelete.id}`);
+      setProducts((prev) => prev.filter((p) => p.id !== productToDelete.id));
+      closeDeleteModal();
     } catch (error) {
       console.error("Error deleting product:", error);
       setError("Failed to delete product.");
     } finally {
-      setActionLoading((prev) => ({ ...prev, [productId]: false }));
+      setActionLoading((prev) => ({ ...prev, [productToDelete.id]: false }));
     }
   };
 
@@ -262,6 +278,7 @@ const ProductManagement = () => {
             <option>La Liga</option>
             <option>Serie A</option>
             <option>MLS</option>
+            <option>SPL</option>
           </select>
         </div>
         <button
@@ -414,7 +431,7 @@ const ProductManagement = () => {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => deleteProduct(product.id)}
+                        onClick={() => openDeleteModal(product)}
                         disabled={actionLoading[product.id]}
                         className={`p-1 text-gray-600 hover:text-red-600 transition-colors ${
                           actionLoading[product.id] ? "opacity-50 cursor-not-allowed" : ""
@@ -525,6 +542,7 @@ const ProductManagement = () => {
                     <option>MLS</option>
                     <option>National</option>
                     <option>Bundesliga</option>
+                    <option>SPL</option>
                   </select>
                 </div>
               </div>
@@ -656,6 +674,79 @@ const ProductManagement = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && productToDelete && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+              <h2 className="text-xl font-semibold text-gray-800">Confirm Deletion</h2>
+              <button
+                onClick={closeDeleteModal}
+                className="text-gray-500 hover:text-gray-700 transition-colors p-1 rounded-lg hover:bg-gray-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
+                  <img 
+                    src={productToDelete.image || "/fallback-image.jpg"} 
+                    alt={productToDelete.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800">{productToDelete.name}</h3>
+                  <p className="text-sm text-gray-600">{productToDelete.league} • {productToDelete.kit}</p>
+                  <p className="text-sm text-gray-600">Year: {productToDelete.year}</p>
+                </div>
+              </div>
+              
+              <p className="text-gray-600 mb-2">
+                Are you sure you want to delete this product? This action cannot be undone.
+              </p>
+              
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 mt-4">
+                <div className="flex items-center gap-2 text-red-700">
+                  <AlertCircle size={16} />
+                  <span className="text-sm font-medium">Warning: This action is permanent!</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end gap-3 border-t border-gray-200 px-6 py-4">
+              <button
+                onClick={closeDeleteModal}
+                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteProduct}
+                disabled={actionLoading[productToDelete.id]}
+                className={`px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium text-sm flex items-center gap-2 ${
+                  actionLoading[productToDelete.id] ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {actionLoading[productToDelete.id] ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete Product"
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

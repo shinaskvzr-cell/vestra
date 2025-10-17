@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Search, Filter, Plus, Edit, Trash2, Mail, Shield, ShieldOff, Users, AlertCircle } from "lucide-react";
+import { Search, Filter, Plus, Edit, Trash2, Mail, Shield, ShieldOff, Users, AlertCircle, X } from "lucide-react";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [actionLoading, setActionLoading] = useState({}); // Track loading state for actions
+  const [actionLoading, setActionLoading] = useState({});
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -43,18 +45,32 @@ const UserManagement = () => {
     }
   };
 
-  const deleteUser = async (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      setActionLoading((prev) => ({ ...prev, [userId]: true }));
-      try {
-        await axios.delete(`http://localhost:5000/users/${userId}`);
-        setUsers(users.filter((u) => u.id !== userId));
-      } catch (err) {
-        console.error("Error deleting user:", err);
-        setError("Failed to delete user.");
-      } finally {
-        setActionLoading((prev) => ({ ...prev, [userId]: false }));
-      }
+  // Open delete confirmation modal
+  const openDeleteModal = (user) => {
+    setUserToDelete(user);
+    setShowDeleteModal(true);
+  };
+
+  // Close delete confirmation modal
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setUserToDelete(null);
+  };
+
+  // Delete user after confirmation
+  const deleteUser = async () => {
+    if (!userToDelete) return;
+    
+    setActionLoading((prev) => ({ ...prev, [userToDelete.id]: true }));
+    try {
+      await axios.delete(`http://localhost:5000/users/${userToDelete.id}`);
+      setUsers(users.filter((u) => u.id !== userToDelete.id));
+      closeDeleteModal();
+    } catch (err) {
+      console.error("Error deleting user:", err);
+      setError("Failed to delete user.");
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [userToDelete.id]: false }));
     }
   };
 
@@ -285,7 +301,7 @@ const UserManagement = () => {
                       </button> */}
                       {user.role !== "admin" && (
                         <button
-                          onClick={() => deleteUser(user.id)}
+                          onClick={() => openDeleteModal(user)}
                           disabled={actionLoading[user.id]}
                           className={`p-1 text-gray-600 hover:text-red-600 ${
                             actionLoading[user.id] ? "opacity-50 cursor-not-allowed" : ""
@@ -312,6 +328,101 @@ const UserManagement = () => {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && userToDelete && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+              <h2 className="text-xl font-semibold text-gray-800">Confirm User Deletion</h2>
+              <button
+                onClick={closeDeleteModal}
+                className="text-gray-500 hover:text-gray-700 transition-colors p-1 rounded-lg hover:bg-gray-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-lg font-semibold text-gray-700">
+                    {userToDelete.name?.charAt(0)?.toUpperCase() || "?"}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800">{userToDelete.name || "Unknown User"}</h3>
+                  <p className="text-sm text-gray-600">{userToDelete.email || "N/A"}</p>
+                  <div className="flex gap-2 mt-1">
+                    <span className={`text-xs px-2 py-1 rounded-full ${getRoleColor(userToDelete.role)}`}>
+                      {userToDelete.role || "user"}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(userToDelete.isBlock)}`}>
+                      {userToDelete.isBlock ? "Blocked" : "Active"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+                  <div>
+                    <span className="font-medium">Orders:</span> {userToDelete.orders?.length || 0}
+                  </div>
+                  <div>
+                    <span className="font-medium">Joined:</span>{" "}
+                    {userToDelete.createdAt
+                      ? new Date(userToDelete.createdAt).toLocaleDateString()
+                      : "N/A"}
+                  </div>
+                </div>
+              </div>
+              
+              <p className="text-gray-600 mb-4">
+                Are you sure you want to delete this user? This action cannot be undone and will permanently remove all user data.
+              </p>
+              
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                <div className="flex items-center gap-2 text-red-700">
+                  <AlertCircle size={16} />
+                  <span className="text-sm font-medium">Warning: This action is permanent!</span>
+                </div>
+                <p className="text-xs text-red-600 mt-1">
+                  All user orders, cart items, and wishlist data will be lost.
+                </p>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end gap-3 border-t border-gray-200 px-6 py-4">
+              <button
+                onClick={closeDeleteModal}
+                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteUser}
+                disabled={actionLoading[userToDelete.id]}
+                className={`px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium text-sm flex items-center gap-2 ${
+                  actionLoading[userToDelete.id] ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {actionLoading[userToDelete.id] ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete User"
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

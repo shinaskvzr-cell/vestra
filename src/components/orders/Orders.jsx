@@ -64,6 +64,18 @@ function Orders() {
     }
   };
 
+  // Safe calculation for product total
+  const calculateProductTotal = (product) => {
+    const price = parseFloat(product.price) || 0;
+    const quantity = parseInt(product.quantity) || 1; // Default to 1 if quantity is missing
+    return (price * quantity).toFixed(2);
+  };
+
+  // Safe quantity display
+  const getQuantity = (product) => {
+    return parseInt(product.quantity) || 1; // Default to 1 if quantity is missing
+  };
+
   if (!userId) {
     return (
       <div>
@@ -189,10 +201,10 @@ function Orders() {
                                   Size: <span className="font-semibold">{product.selectedSize}</span>
                                 </span>
                                 <span>
-                                  Qty: <span className="font-semibold">{product.quantity}</span>
+                                  Qty: <span className="font-semibold">{getQuantity(product)}</span>
                                 </span>
                                 <span className="text-green-600 font-semibold">
-                                  ${(product.price * product.quantity).toFixed(2)}
+                                  ${calculateProductTotal(product)}
                                 </span>
                               </div>
                             </div>
@@ -209,22 +221,22 @@ function Orders() {
                         Shipping Address:
                       </p>
                       <p className="text-sm text-gray-600">
-                        {order.shippingDetails.fullName}
+                        {order.shippingDetails?.fullName || "N/A"}
                         <br />
-                        {order.shippingDetails.address}
+                        {order.shippingDetails?.address || "N/A"}
                         <br />
-                        {order.shippingDetails.city}
-                        {order.shippingDetails.state && `, ${order.shippingDetails.state}`}
-                        {order.shippingDetails.zipCode && ` - ${order.shippingDetails.zipCode}`}
+                        {order.shippingDetails?.city || "N/A"}
+                        {order.shippingDetails?.state && `, ${order.shippingDetails.state}`}
+                        {order.shippingDetails?.zipCode && ` - ${order.shippingDetails.zipCode}`}
                         <br />
-                        {order.shippingDetails.phone}
+                        {order.shippingDetails?.phone || "N/A"}
                       </p>
                       <p className="text-sm text-gray-600 mt-2">
                         Payment Method:{" "}
                         <span className="font-semibold capitalize">
                           {order.paymentMethod === "cod"
                             ? "Cash on Delivery"
-                            : order.paymentMethod}
+                            : order.paymentMethod || "N/A"}
                         </span>
                       </p>
                     </div>

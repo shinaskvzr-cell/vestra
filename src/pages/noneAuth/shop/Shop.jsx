@@ -12,9 +12,6 @@ import { WishlistContext } from "../../../context/WishlistContext";
 import FilterSection from "./FilterSection";
 import Pagination from "./Pagination";
 
-
-
-
 function Shop() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -22,8 +19,10 @@ function Shop() {
   const [searchName, setSearchName] = useState(localStorage.getItem("Jersey Name") || "");
   const [selectedYear, setSelectedYear] = useState(localStorage.getItem("Year") || "");
   const [selectedKit, setSelectedKit] = useState(localStorage.getItem("Kit") || "");
+  const [selectedLeague, setSelectedLeague] = useState(localStorage.getItem("League") || ""); // New state
   const [sortOption, setSortOption] = useState(localStorage.getItem("Sort") || "year-desc");
   const [availableYears, setAvailableYears] = useState([]);
+  const [availableLeagues, setAvailableLeagues] = useState([]); // New state
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,8 +46,12 @@ function Shop() {
         const data = res.data;
         setProducts(data);
         setFilteredProducts(data);
+        
+        // Extract available years and leagues
         const years = [...new Set(data.map((p) => p.year))].sort((a, b) => b - a);
+        const leagues = [...new Set(data.map((p) => p.league).filter(Boolean))].sort(); // Filter out undefined/null
         setAvailableYears(years);
+        setAvailableLeagues(leagues);
       } catch (err) {
         console.error("Error fetching products:", err);
         setError("Failed to load products. Please try again later.");
@@ -75,10 +78,12 @@ function Shop() {
 
   // Filter and sort logic
   useEffect(() => {
-    localStorage.setItem("Jersey Name", searchName)
-    localStorage.setItem("Year", selectedYear)
-    localStorage.setItem("Kit", selectedKit)
-    localStorage.setItem("Sort", sortOption)
+    localStorage.setItem("Jersey Name", searchName);
+    localStorage.setItem("Year", selectedYear);
+    localStorage.setItem("Kit", selectedKit);
+    localStorage.setItem("League", selectedLeague); // Save league to localStorage
+    localStorage.setItem("Sort", sortOption);
+    
     let filtered = [...products];
 
     if (searchName.trim() !== "") {
@@ -95,6 +100,10 @@ function Shop() {
       filtered = filtered.filter((p) => p.kit?.toLowerCase() === selectedKit.toLowerCase());
     }
 
+    if (selectedLeague !== "") {
+      filtered = filtered.filter((p) => p.league === selectedLeague);
+    }
+
     switch (sortOption) {
       case "name-asc":
         filtered.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
@@ -108,13 +117,16 @@ function Shop() {
       case "year-asc":
         filtered.sort((a, b) => (a.year || 0) - (b.year || 0));
         break;
+      case "league-asc":
+        filtered.sort((a, b) => (a.league || "").localeCompare(b.league || ""));
+        break;
       default:
         break;
     }
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
-  }, [searchName, selectedYear, selectedKit, sortOption, products]);
+  }, [searchName, selectedYear, selectedKit, selectedLeague, sortOption, products]);
 
   // Pagination logic
   useEffect(() => {
@@ -127,6 +139,7 @@ function Shop() {
     setSearchName("");
     setSelectedYear("");
     setSelectedKit("");
+    setSelectedLeague(""); // Clear league filter
     setSortOption("year-desc");
     setCurrentPage(1);
   };
@@ -137,40 +150,44 @@ function Shop() {
   };
 
   const handleAddToCart = async (product) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      toast.warn("Please login to add items to cart!");
-      navigate("/login");
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    toast.warn("Please login to add items to cart!");
+    navigate("/login");
+    return;
+  }
+
+  setActionLoading((prev) => ({ ...prev, [product.id]: true }));
+  try {
+    const userRes = await axios.get(`http://localhost:5000/users/${userId}`);
+    const user = userRes.data;
+
+    const alreadyInCart = user.cart?.some((item) => item.id === product.id);
+    if (alreadyInCart) {
+      toast.success("Item already in cart!");
       return;
     }
 
-    setActionLoading((prev) => ({ ...prev, [product.id]: true }));
-    try {
-      const userRes = await axios.get(`http://localhost:5000/users/${userId}`);
-      const user = userRes.data;
+    const updatedCart = [...(user.cart || []), { ...product, quantity: 1, selectedSize: "M" }];
 
-      const alreadyInCart = user.cart?.some((item) => item.id === product.id);
-      if (alreadyInCart) {
-        toast.success("Item already in cart!");
-        return;
-      }
+    await axios.patch(`http://localhost:5000/users/${userId}`, {
+      cart: updatedCart,
+    });
 
-      const updatedCart = [...(user.cart || []), { ...product, quantity: 1, selectedSize: "M" }];
-
-      await axios.patch(`http://localhost:5000/users/${userId}`, {
-        cart: updatedCart,
-      });
-
-      setCurrentUser({ ...user, cart: updatedCart });
-      updateCartCount(updatedCart.length);
-      toast.success("✅ Added to cart successfully!");
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      toast.warn("Failed to add item to cart!");
-    } finally {
-      setActionLoading((prev) => ({ ...prev, [product.id]: false }));
-    }
-  };
+    setCurrentUser({ ...user, cart: updatedCart });
+    
+    // ✅ Update cart count with TOTAL QUANTITY
+    const totalQuantity = updatedCart.reduce((acc, item) => acc + item.quantity, 0);
+    updateCartCount(totalQuantity);
+    
+    toast.success("✅ Added to cart successfully!");
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    toast.warn("Failed to add item to cart!");
+  } finally {
+    setActionLoading((prev) => ({ ...prev, [product.id]: false }));
+  }
+};
 
   const handleAddToWishlist = async (product) => {
     const userId = localStorage.getItem("userId");
@@ -271,7 +288,10 @@ function Shop() {
             setSelectedYear={setSelectedYear}
             selectedKit={selectedKit}
             setSelectedKit={setSelectedKit}
+            selectedLeague={selectedLeague} // Pass new props
+            setSelectedLeague={setSelectedLeague}
             availableYears={availableYears}
+            availableLeagues={availableLeagues} // Pass available leagues
             handleClearFilters={handleClearFilters}
             sortOption={sortOption}
             setSortOption={setSortOption}
@@ -344,6 +364,13 @@ function Shop() {
                     <p className="text-base font-medium text-gray-600 mb-3">
                       {product.kit || "N/A"}
                     </p>
+
+                    {/* Display League if available */}
+                    {product.league && (
+                      <p className="text-sm font-medium text-blue-600 mb-2">
+                        {product.league}
+                      </p>
+                    )}
 
                     <div className="flex justify-between items-center">
                       <p className="text-xl font-bold text-rose-500">

@@ -64,59 +64,63 @@ function Wishlist() {
   };
 
   // Move item to cart
-  const moveToCart = async (product) => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      toast.warning("Please login to add items to cart!");
-      navigate("/login");
+  // Move item to cart
+const moveToCart = async (product) => {
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    toast.warning("Please login to add items to cart!");
+    navigate("/login");
+    return;
+  }
+
+  try {
+    // Fetch current user data
+    const userRes = await axios.get(`${API_URL}/users/${userId}`);
+    const user = userRes.data;
+
+    // Check if already in cart
+    const alreadyInCart = user.cart?.some((item) => item.id === product.id);
+    if (alreadyInCart) {
+      toast.success("Item already in cart!");
       return;
     }
 
-    try {
-      // Fetch current user data
-      const userRes = await axios.get(`${API_URL}/users/${userId}`);
-      const user = userRes.data;
+    // Add product to cart
+    const updatedCart = [
+      ...(user.cart || []),
+      { ...product, quantity: 1, selectedSize: "M" },
+    ];
 
-      // Check if already in cart
-      const alreadyInCart = user.cart.some((item) => item.id === product.id);
-      if (alreadyInCart) {
-        toast.success("Item already in cart!");
-        return;
-      }
+    // Remove from wishlist
+    const updatedWishlist = user.wishlist?.filter((item) => item.id !== product.id) || [];
 
-      // Add product to cart
-      const updatedCart = [
-        ...user.cart,
-        { ...product, quantity: 1, selectedSize: "M" },
-      ];
+    // Update JSON server
+    await axios.patch(`${API_URL}/users/${userId}`, {
+      cart: updatedCart,
+      wishlist: updatedWishlist,
+    });
 
-      // Remove from wishlist
-      const updatedWishlist = user.wishlist.filter((item) => item.id !== product.id);
+    // Update local state
+    setCurrentUser({
+      ...user,
+      cart: updatedCart,
+      wishlist: updatedWishlist
+    });
 
-      // Update JSON server
-      await axios.patch(`${API_URL}/users/${userId}`, {
-        cart: updatedCart,
-        wishlist: updatedWishlist,
-      });
+    // ✅ Update both counts CORRECTLY
+    updateWishlistCount(updatedWishlist.length);
+    
+    // ✅ Calculate TOTAL QUANTITY for cart count (not just item count)
+    const totalQuantity = updatedCart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+    updateCartCount(totalQuantity);
 
-      // Update local state
-      setCurrentUser({
-        ...user,
-        cart: updatedCart,
-        wishlist: updatedWishlist
-      });
-
-      // Update both counts
-      updateWishlistCount(updatedWishlist.length);
-      updateCartCount(updatedCart.length);
-
-      toast.success("✅ Moved to cart successfully!");
-      navigate("/cart");
-    } catch (err) {
-      console.error("Error moving item to cart:", err);
-      toast.error("Failed to move item to cart!");
-    }
-  };
+    toast.success("✅ Moved to cart successfully!");
+    navigate("/cart");
+  } catch (err) {
+    console.error("Error moving item to cart:", err);
+    toast.error("Failed to move item to cart!");
+  }
+};
 
   const wishlistItems = currentUser?.wishlist || [];
 

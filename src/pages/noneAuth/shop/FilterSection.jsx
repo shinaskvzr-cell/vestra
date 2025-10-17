@@ -8,18 +8,21 @@ const FilterSection = ({
   setSelectedYear,
   selectedKit,
   setSelectedKit,
+  selectedLeague, // New prop
+  setSelectedLeague, // New prop
   availableYears,
+  availableLeagues, // New prop
   handleClearFilters,
   sortOption,
   setSortOption,
 }) => (
-  <div className="max-w-4xl mx-auto mb-8 bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+  <div className="max-w-5xl mx-auto mb-8 bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
     <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
       <Filter size={20} className="text-blue-500" />
       Filters
     </h2>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
       {/* 🔍 Search */}
       <div>
         <label className="block text-sm font-semibold text-gray-600 mb-2">
@@ -79,6 +82,26 @@ const FilterSection = ({
         </select>
       </div>
 
+      {/* ⚽ League */}
+      <div>
+        <label className="block text-sm font-semibold text-gray-600 mb-2">
+          Filter by League
+        </label>
+        <select
+          value={selectedLeague}
+          onChange={(e) => setSelectedLeague(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+          aria-label="Filter by league"
+        >
+          <option value="">All Leagues</option>
+          {availableLeagues.map((league) => (
+            <option key={league} value={league}>
+              {league}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {/* 🔽 Sort */}
       <div>
         <label className="block text-sm font-semibold text-gray-600 mb-2">
@@ -94,6 +117,7 @@ const FilterSection = ({
           <option value="name-desc">Name (Z-A)</option>
           <option value="year-desc">Year (Newest)</option>
           <option value="year-asc">Year (Oldest)</option>
+          <option value="league-asc">League (A-Z)</option>
         </select>
       </div>
 
